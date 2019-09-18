@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chengliang.im.mapper.FriendGroupMapper">
+
+    <resultMap id="rm" type="com.chengliang.im.bean.FriendGroup">
+        <id column="friend_group_id" property="id"/>
+        <result column="friend_group_name" property="groupname"/>
+        <result column="online" property="online"/>
+        <collection property="list" ofType="com.chengliang.im.bean.User" column="friend_group_id" select="com.chengliang.im.mapper.UserMapper.selectUserByFriendGroupId"/>
+    </resultMap>
+
+
+    <select id="selectFriendGroupByUserId" resultMap="rm">
+        select DISTINCT friend_group_name,fgu.friend_group_id from friend_group_user fgu inner join friend_group fg  on fgu.friend_group_id = fg.friend_group_id
+        where fgu.user_id = #{userId}
+    </select>
+
+</mapper>
